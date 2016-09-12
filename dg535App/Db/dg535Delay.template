@@ -1,0 +1,21 @@
+
+#--- Ch.$(N) Delay ---------------
+record(ao, "$(P):CH$(N):DELAY") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT), $(N), 0)DELAY")
+    field(EGU,  "s")
+    field(PREC, "12")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai, "$(P):CH$(N):DELAY_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT), $(N), 0)DELAY")
+    field(EGU,  "s")
+    field(PREC, "12")
+    field(SCAN, "I/O Intr")
+}
+
+

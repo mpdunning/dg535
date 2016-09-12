@@ -1,0 +1,89 @@
+#--- Ch.$(N) Impedance ---------------
+record(bo, "$(P):CH$(N):IMPED") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT), $(N), 0)IMPED")
+    field(ZNAM, "50 Ohm")
+    field(ONAM, "High-Z")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(bi, "$(P):CH$(N):IMPED_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT), $(N), 0)IMPED")
+    field(ZNAM, "50 Ohm")
+    field(ONAM, "High-Z")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Ch.$(N) Output mode ---------------
+record(mbbo, "$(P):CH$(N):OUTMODE") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT), $(N), 0)OUT_MODE")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "TTL")
+    field(ONST, "NIM")
+    field(TWST, "ECL")
+    field(THST, "VAR")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(mbbi, "$(P):CH$(N):OUTMODE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT), $(N), 0)OUT_MODE")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "TTL")
+    field(ONST, "NIM")
+    field(TWST, "ECL")
+    field(THST, "VAR")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Ch.$(N) Amplitude ---------------
+record(ao, "$(P):CH$(N):AMPLITUDE") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT), $(N), 0)OUT_AMP")
+    field(EGU,  "V")
+    field(PREC, "3")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai, "$(P):CH$(N):AMPLITUDE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT), $(N), 0)OUT_AMP")
+    field(EGU,  "V")
+    field(PREC, "3")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Ch.$(N) Offset ---------------
+record(ao, "$(P):CH$(N):OFFSET") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT), $(N), 0)OUT_OFF")
+    field(EGU,  "V")
+    field(PREC, "3")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai, "$(P):CH$(N):OFFSET_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT), $(N), 0)OUT_OFF")
+    field(EGU,  "V")
+    field(PREC, "3")
+    field(SCAN, "I/O Intr")
+}
+
+

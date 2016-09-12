@@ -1,0 +1,249 @@
+#--- Trig Rate ---------------
+record(ao,"$(P):TRIG:RATE") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)TRIG_RATE")
+    field(PREC, "2")
+    field(EGU,  "Hz")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai,"$(P):TRIG:RATE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)TRIG_RATE")
+    field(PREC, "2")
+    field(EGU,  "Hz")
+    field(PINI, "0")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Trig Level ---------------
+record(ao,"$(P):TRIG:LEVEL") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)TRIG_LEVEL")
+    field(PREC, "2")
+    field(EGU,  "V")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai,"$(P):TRIG:LEVEL_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)TRIG_LEVEL")
+    field(PREC, "2")
+    field(EGU,  "V")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Trig Mode ---------------
+record(mbbo,"$(P):TRIG:MODE") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)TRIG_MODE")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Int")
+    field(ONST, "Ext")
+    field(TWST, "SS")
+    field(THST, "Burst")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(mbbi,"$(P):TRIG:MODE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)TRIG_MODE")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Int")
+    field(ONST, "Ext")
+    field(TWST, "SS")
+    field(THST, "Burst")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Trig Mode ---------------
+record(bo, "$(P):TRIG:SLOPE") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)TRIG_SLOPE")
+    field(ZNAM, "Falling")
+    field(ONAM, "Rising")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(bi, "$(P):TRIG:SLOPE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)TRIG_SLOPE")
+    field(ZNAM, "Falling")
+    field(ONAM, "Rising")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Burst Rate ---------------
+record(ao,"$(P):BURST:RATE") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)BURST_RATE")
+    field(PREC, "2")
+    field(EGU,  "Hz")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(ai,"$(P):BURST:RATE_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)BURST_RATE")
+    field(PREC, "2")
+    field(EGU,  "Hz")
+    field(PINI, "0")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Burst count ---------------
+record(longout,"$(P):BURST:COUNT") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)BURST_CNT")
+    field(EGU,  "pulses")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(longin,"$(P):BURST:COUNT_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)BURST_CNT")
+    field(EGU,  "pulses")
+    field(PINI, "0")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Burst period ---------------
+record(longout,"$(P):BURST:PERIOD") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)BURST_PER")
+    field(EGU,  "trigs")
+    field(PINI, "0")
+    info(asyn:READBACK, "1")
+}
+record(longin,"$(P):BURST:PERIOD_RBV") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)BURST_PER")
+    field(EGU,  "trigs")
+    field(PINI, "0")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Single-shot ---------------
+record(bo, "$(P):SINGLE") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)SINGLE")
+}
+
+#--- Display string ---------------
+record(stringout, "$(P):DSP_STR") {
+    field(DESC, "")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT) 0)DSP_STR")
+    field(PINI, "0")
+}
+
+#--- Status bytes ---------------
+record(longin, "$(P):STATUS:ERR") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)ERR_STAT")
+    field(SCAN, "I/O Intr")
+}
+record(longin, "$(P):STATUS:INST") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)INST_STAT")
+    field(SCAN, "I/O Intr")
+}
+
+#--- Clear instrument ---------------
+record(bo, "$(P):CLEAR") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)CLEAR")
+}
+
+#--- Store settings ---------------
+record(mbbo,"$(P):STORE_MENU") {
+    field(DESC, "")
+    field(OUT,  "$(P):STORE")
+#    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(FVVL, "5")
+    field(SXVL, "6")
+    field(SVVL, "7")
+    field(EIVL, "8")
+    field(NIVL, "9")
+#    field(ZRST, "0")
+    field(ONST, "1")
+    field(TWST, "2")
+    field(THST, "3")
+    field(FRST, "4")
+    field(FVST, "5")
+    field(SXST, "6")
+    field(SVST, "7")
+    field(EIST, "8")
+    field(NIST, "9")
+    field(PINI, "0")
+}
+record(bo,"$(P):STORE") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)STORE")
+    field(PINI, "0")
+}
+
+#--- Recall settings ---------------
+record(mbbo,"$(P):RECALL_MENU") {
+    field(DESC, "")
+    field(OUT,  "$(P):RECALL")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(FVVL, "5")
+    field(SXVL, "6")
+    field(SVVL, "7")
+    field(EIVL, "8")
+    field(NIVL, "9")
+    field(ZRST, "0")
+    field(ONST, "1")
+    field(TWST, "2")
+    field(THST, "3")
+    field(FRST, "4")
+    field(FVST, "5")
+    field(SXST, "6")
+    field(SVST, "7")
+    field(EIST, "8")
+    field(NIST, "9")
+    field(PINI, "0")
+}
+record(bo,"$(P):RECALL") {
+    field(DESC, "")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)RECALL")
+    field(PINI, "0")
+}
+
+
+

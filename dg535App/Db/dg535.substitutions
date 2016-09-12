@@ -1,0 +1,28 @@
+file dg535Common.template {
+    {None}
+}
+
+file dg535Chan.template {
+    {N=2}
+    {N=3}
+    {N=4}
+    {N=5}
+    {N=6}
+    {N=7}
+}
+
+file dg535Polarity.template {
+    {N=2}
+    {N=3}
+    {N=5}
+    {N=6}
+}
+
+file dg535Delay.template {
+    {N=2}
+    {N=3}
+    {N=5}
+    {N=6}
+}
+
+
