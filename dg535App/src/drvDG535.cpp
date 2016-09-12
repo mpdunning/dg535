@@ -4,8 +4,6 @@ drvDG535.cpp
 
 #include <cstdlib>
 #include <cstring>
-#include <string>
-//#include <vector>
 
 #include <epicsThread.h>
 #include <epicsExport.h>
@@ -14,23 +12,23 @@ drvDG535.cpp
 
 #include "drvDG535.h"
 
-#define STRLEN  256
-#define DEFAULT_POLL_TIME 2.0
-#define TRIG_RATE_MIN 1e-3
-#define TRIG_RATE_MAX 1e6
-#define TRIG_LEVEL_MIN -2.5
-#define TRIG_LEVEL_MAX 2.5
-#define OUT_AMP_MIN -3.0
-#define OUT_AMP_MAX 4.0
-#define OUT_AMP_STEP 0.1
-#define BURST_CNT_MIN 2
-#define BURST_CNT_MAX 32766
-#define BURST_PER_MIN 4
-#define BURST_PER_MAX 32766
+const int STRLEN = 256;
+const int BURST_CNT_MIN = 2;
+const int BURST_CNT_MAX = 32766;
+const int BURST_PER_MIN = 4;
+const int BURST_PER_MAX = 32766;
+const double DEFAULT_POLL_TIME = 2.0;
+const double TRIG_RATE_MIN = 1e-3;
+const double TRIG_RATE_MAX = 1e6;
+const double TRIG_LEVEL_MIN = -2.5;
+const double TRIG_LEVEL_MAX = 2.5;
+const double OUT_AMP_MIN = -3.0;
+const double OUT_AMP_MAX = 4.0;
+const double OUT_AMP_STEP = 0.1;
 
 
 asynUser *pasynUser;
-static char _str[STRLEN];
+char _str[STRLEN];
 static const char *driverName = "drvDG535";
 
 static void pollerThreadC(void * pPvt) {
@@ -97,7 +95,7 @@ drvDG535::drvDG535(const char *port, const char* udp, int addr, int nchan, doubl
 void drvDG535::pollerThread()
 {
 /* This function runs in a separate thread.  It waits for the poll time */
-    //static const char *functionName = "pollerThread";
+    //const char *functionName = "pollerThread";
     int nchans = this->nchans_;
     int i;
 
@@ -179,7 +177,7 @@ void drvDG535::_readInt(int function, const char *cmd, int addr) {
  * Writes a string to device, reads response,
  * sets value in parameter library, does callback.
  *---------------------------------------------------------------------------*/
-    static const char *functionName = "_readInt";
+    const char *functionName = "_readInt";
     asynStatus status = asynSuccess; 
     int tempVal;
     
@@ -199,7 +197,11 @@ void drvDG535::_readInt(int function, const char *cmd, int addr) {
 }
     
 void drvDG535::_readDouble(int function, const char *cmd, int addr) {
-    static const char *functionName = "_readDouble";
+/*-----------------------------------------------------------------------------
+ * Writes a string to device, reads response,
+ * sets value in parameter library, does callback.
+ *---------------------------------------------------------------------------*/
+    const char *functionName = "_readDouble";
     asynStatus status = asynSuccess; 
     double tempVal;
     
@@ -219,7 +221,11 @@ void drvDG535::_readDouble(int function, const char *cmd, int addr) {
 }
 
 void drvDG535::_readDelay(int addr) {
-    static const char *functionName = "_readDelay";
+/*-----------------------------------------------------------------------------
+ * Writes a string to device, reads response,
+ * sets value in parameter library, does callback.
+ *---------------------------------------------------------------------------*/
+    const char *functionName = "_readDelay";
     asynStatus status = asynSuccess; 
     char *ptoken;
     double tempVal;
@@ -254,7 +260,7 @@ asynStatus drvDG535::_write(const char *buffer) {
 /*-----------------------------------------------------------------------------
  * Writes a string to device.
  *---------------------------------------------------------------------------*/
-    static const char *functionName = "_write";
+    const char *functionName = "_write";
     asynStatus status = asynSuccess; 
     size_t nbytesTransfered;
     double timeout = this->timeout_;
@@ -278,7 +284,7 @@ asynStatus drvDG535::_writeRead(const char *buffer) {
 /*-----------------------------------------------------------------------------
  * Writes a string to device and reads response.
  *---------------------------------------------------------------------------*/
-    static const char *functionName = "_writeRead";
+    const char *functionName = "_writeRead";
     asynStatus status = asynSuccess; 
     size_t nbytesOut, nbytesIn; 
     int eomReason;
@@ -291,7 +297,7 @@ asynStatus drvDG535::_writeRead(const char *buffer) {
     //printf("%s::%s: buffer=%s, status=%d, nbytesOut=%d, cmdBuffer_=%s, nbytesIn=%d\n",
     //driverName, functionName, buffer, status, (int)nbytesOut, cmdBuffer_, (int)nbytesIn);
   
-    if((status != asynSuccess) || !nbytesIn || (nbytesIn > CMD_BUF_LEN)) {
+    if((status != asynSuccess) || !nbytesIn || ((int)nbytesIn > CMD_BUF_LEN)) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
           "%s::%s: Error: buffer=%s, status=%d, nbytesOut=%d, cmdBuffer_=%s, nbytesIn=%d\n",
           driverName, functionName, buffer, status, (int)nbytesOut, cmdBuffer_, (int)nbytesIn);
@@ -301,7 +307,7 @@ asynStatus drvDG535::_writeRead(const char *buffer) {
 }
 
 asynStatus drvDG535::readInt32(asynUser *pasynUser, epicsInt32 *value) {
-    static const char *functionName = "readInt32";
+    const char *functionName = "readInt32";
     int addr;
     int function = pasynUser->reason;
     int status = 0;
@@ -372,7 +378,7 @@ asynStatus drvDG535::readInt32(asynUser *pasynUser, epicsInt32 *value) {
 }
 
 asynStatus drvDG535::readFloat64(asynUser *pasynUser, epicsFloat64 *value) {
-    static const char *functionName = "readFloat64";
+    const char *functionName = "readFloat64";
     int addr;
     int function = pasynUser->reason;
     int status = 0;
@@ -436,7 +442,7 @@ asynStatus drvDG535::readFloat64(asynUser *pasynUser, epicsFloat64 *value) {
 }
 
 asynStatus drvDG535::writeInt32(asynUser *pasynUser, epicsInt32 value) {
-    static const char* functionName = "writeInt32";
+    const char* functionName = "writeInt32";
     int function = pasynUser->reason;
     asynStatus status = asynSuccess;
     int addr;
@@ -524,7 +530,7 @@ asynStatus drvDG535::writeInt32(asynUser *pasynUser, epicsInt32 value) {
 }
 
 asynStatus drvDG535::writeFloat64(asynUser *pasynUser, epicsFloat64 value) {
-    static const char* functionName = "writeFloat64";
+    const char* functionName = "writeFloat64";
     int function = pasynUser->reason;
     asynStatus status = asynSuccess;
     int addr;
@@ -605,7 +611,7 @@ asynStatus drvDG535::writeFloat64(asynUser *pasynUser, epicsFloat64 value) {
 }
 
 asynStatus drvDG535::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual) {
-    static const char* functionName = "writeOctet";
+    const char* functionName = "writeOctet";
     int function = pasynUser->reason;
     asynStatus status = asynSuccess;
     int addr;

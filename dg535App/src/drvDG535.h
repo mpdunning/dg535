@@ -4,7 +4,7 @@ drvDG535.h
 
 #include "asynPortDriver.h"
 
-#define CMD_BUF_LEN 256
+const int CMD_BUF_LEN = 256;
 
 #define trigRateString      "TRIG_RATE"   /* asynFloat64,    r/w */
 #define trigModeString      "TRIG_MODE"   /* asynInt32,      r/w */
