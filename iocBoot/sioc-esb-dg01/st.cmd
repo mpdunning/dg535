@@ -16,7 +16,7 @@ dg535_registerRecordDeviceDriver pdbbase
 vxi11Configure("DG", $(ETHER), 0, 0.0, "gpib0", 0, 0)
 
 
-# drvDG535Configure(const char* port, const char* udp, int addr, double timeout){
+# drvDG535Configure(const char* port, const char* udp, int addr, int nchan, double timeout){
 #/*------------------------------------------------------------------------------
 # * EPICS iocsh callable function to call constructor for the drvDG535 class.
 # *  port    The name of the asyn port driver to be created.

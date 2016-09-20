@@ -4,8 +4,6 @@ drvDG535.h
 
 #include "asynPortDriver.h"
 
-const int CMD_BUF_LEN = 256;
-
 #define trigRateString      "TRIG_RATE"   /* asynFloat64,    r/w */
 #define trigModeString      "TRIG_MODE"   /* asynInt32,      r/w */
 #define trigSlopeString     "TRIG_SLOPE"  /* asynInt32,      r/w */
@@ -68,10 +66,14 @@ protected:
     #define LAST_COMMAND displayStr
 
 private:
+    asynUser *pasynUser;
+    static const int CMD_BUF_LEN = 256;
     char cmdBuffer_[CMD_BUF_LEN];
+    static const int STRLEN = 256;
+    char str_[STRLEN];
     double pollTime_;
     int forceCallback_;
-    int nchans_;
+    int nchan_;
     double timeout_;
 };
 
