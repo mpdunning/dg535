@@ -27,7 +27,7 @@ drvDG535.h
 
 class drvDG535 : public asynPortDriver{
 public:
-    drvDG535(const char* port, const char* udp, int addr, int nchan, double timeout);
+    drvDG535(const char* port, const char* udp, int addr, double timeout);
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
@@ -73,7 +73,6 @@ private:
     char str_[STRLEN];
     double pollTime_;
     int forceCallback_;
-    int nchan_;
     double timeout_;
 };
 

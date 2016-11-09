@@ -2,6 +2,7 @@
 drvDG535.cpp
 */
 
+#include <iostream>     // std::cout
 #include <cstdlib>
 #include <cstring>
 
@@ -12,11 +13,10 @@ drvDG535.cpp
 
 #include "drvDG535.h"
 
-const int BURST_CNT_MIN = 2;
-const int BURST_CNT_MAX = 32766;
-const int BURST_PER_MIN = 4;
-const int BURST_PER_MAX = 32766;
+const int MAX_CHAN = 8;
+const double DEFAULT_TIMEOUT = 1.0;
 const double DEFAULT_POLL_TIME = 2.0;
+
 const double TRIG_RATE_MIN = 1e-3;
 const double TRIG_RATE_MAX = 1e6;
 const double TRIG_LEVEL_MIN = -2.5;
@@ -24,6 +24,10 @@ const double TRIG_LEVEL_MAX = 2.5;
 const double OUT_AMP_MIN = -3.0;
 const double OUT_AMP_MAX = 4.0;
 const double OUT_AMP_STEP = 0.1;
+const int BURST_CNT_MIN = 2;
+const int BURST_CNT_MAX = 32766;
+const int BURST_PER_MIN = 4;
+const int BURST_PER_MAX = 32766;
 
 static const char *driverName = "drvDG535";
 
@@ -33,8 +37,8 @@ static void pollerThreadC(void * pPvt) {
 }
 
 /* Constructor for the drvDG535 class */
-drvDG535::drvDG535(const char *port, const char* udp, int addr, int nchan, double timeout) 
-   : asynPortDriver(port, nchan, (int)N_PARAMS,
+drvDG535::drvDG535(const char *port, const char* udp, int addr, double timeout) 
+   : asynPortDriver(port, MAX_CHAN, N_PARAMS,
                     asynInt32Mask | asynFloat64Mask | asynOctetMask | asynDrvUserMask, /* Interface mask */
                     asynInt32Mask | asynFloat64Mask,  /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags  */
@@ -42,12 +46,13 @@ drvDG535::drvDG535(const char *port, const char* udp, int addr, int nchan, doubl
                     0, /* Default priority */
                     0), /* Default stack size*/    
                     pollTime_(DEFAULT_POLL_TIME),
-                    forceCallback_(1)
+                    forceCallback_(1),
+                    timeout_(timeout)
 {
     const char *functionName = "drvDG535";
     asynStatus status;
-    nchan_ = nchan;
-    timeout_ = timeout;
+    
+    if (!timeout_) timeout_  = DEFAULT_TIMEOUT;
 
     status = pasynOctetSyncIO->connect(udp, addr, &pasynUser, 0);
     
@@ -108,19 +113,19 @@ void drvDG535::pollerThread()
         _readInt(instStat, "IS", 0);
     
         // Impedance; Read all channels
-        for(i=0; i<nchan_; i++) {
+        for(i=2; i<MAX_CHAN; i++) {
             sprintf(str_, "TZ %d", i);
             _readInt(imped, str_, i);
         }
         
         // Output mode; Skip Chan. 0
-        for(i=1; i<nchan_; i++) {
+        for(i=1; i<MAX_CHAN; i++) {
             sprintf(str_, "OM %d", i);
             _readInt(outMode, str_, i);
         }
         
         // Output polarity; Read all channels
-        for(i=0; i<nchan_; i++) {
+        for(i=0; i<MAX_CHAN; i++) {
         // Skip Chan. 0, 1, 4, 7
             if ((i == 2) || (i == 3) || (i == 5) || (i == 6)) {
                 sprintf(str_, "OP %d", i);
@@ -139,19 +144,19 @@ void drvDG535::pollerThread()
         _readDouble(trigLevel, "TL", 0);
     
         // Output amplitude; Skip Chan. 0
-        for(i=1; i<nchan_; i++) {
+        for(i=1; i<MAX_CHAN; i++) {
             sprintf(str_, "OA %d", i);
             _readDouble(outAmp, str_, i);
         }
         
         // Output offset; Skip Chan. 0
-        for(i=1; i<nchan_; i++) {
+        for(i=1; i<MAX_CHAN; i++) {
             sprintf(str_, "OO %d", i);
             _readDouble(outOff, str_, i);
         }
        
         // Delay; Skip Chan. 0, 1, 4, 7
-        for(i=0; i<nchan_; i++) {
+        for(i=0; i<MAX_CHAN; i++) {
             if ((i == 2) || (i == 3) || (i == 5) || (i == 6)) {
             _readDelay(i);
             }
@@ -646,29 +651,27 @@ asynStatus drvDG535::writeOctet(asynUser *pasynUser, const char *value, size_t n
 // Configuration routine.  Called directly, or from the iocsh function below
 extern "C" {
 
-int drvDG535Configure(const char* port, const char* udp, int addr, int nchan, double timeout) {
+int drvDG535Configure(const char* port, const char* udp, int addr, double timeout) {
 /*------------------------------------------------------------------------------
  * EPICS iocsh callable function to call constructor for the drvDG535 class.
  *  port    The name of the asyn port driver to be created.
  *  udp     The communication port name.
  *  addr    The hardware address.
- *  nchan   The number of active (defined) channels.
  *  timeout The timeout for I/O.
  *----------------------------------------------------------------------------*/
-    new drvDG535(port, udp, addr, nchan, timeout);
+    new drvDG535(port, udp, addr, timeout);
     return(asynSuccess);
 }
 
 static const iocshArg initArg0 = {"port", iocshArgString};
 static const iocshArg initArg1 = {"udp", iocshArgString};
 static const iocshArg initArg2 = {"addr", iocshArgInt};
-static const iocshArg initArg3 = {"nchan", iocshArgInt};
-static const iocshArg initArg4 = {"timeout", iocshArgDouble};
-static const iocshArg* const initArgs[] = {&initArg0, &initArg1, &initArg2, &initArg3, &initArg4};
-static const iocshFuncDef initFuncDef = {"drvDG535Configure", 5, initArgs};
+static const iocshArg initArg3 = {"timeout", iocshArgDouble};
+static const iocshArg* const initArgs[] = {&initArg0, &initArg1, &initArg2, &initArg3};
+static const iocshFuncDef initFuncDef = {"drvDG535Configure", 4, initArgs};
 
 static void initCallFunc(const iocshArgBuf *args) {
-    drvDG535Configure(args[0].sval, args[1].sval, args[2].ival, args[3].ival, args[4].dval);
+    drvDG535Configure(args[0].sval, args[1].sval, args[2].ival, args[3].dval);
 }
 
 void drvDG535Register(void){
